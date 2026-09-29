@@ -1,0 +1,23 @@
+[project]
+name = "recipe-aggregator"
+version = "0.1.0"
+description = "Збір та аналіз рецептів"
+requires-python = ">=3.12"
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["ruff", "pytest", "pre-commit"]
+
+[project.scripts]
+recipe-aggregator = "recipe_aggregator.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.setuptools.packages.find]
+where = ["src"]
