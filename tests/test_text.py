@@ -11,3 +11,7 @@ def test_normalize_title_removes_extra_spaces() -> None:
 
 def test_normalize_title_handles_empty_string() -> None:
     assert normalize_title("") == ""
+
+
+def test_normalize_title_handles_whitespace_only() -> None:
+    assert normalize_title("     ") == ""
