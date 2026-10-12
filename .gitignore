@@ -10,3 +10,5 @@ __pycache__/
 .idea/
 .vscode/
 *.egg-info/
+# Large generated datasets
+data/large.jsonl
