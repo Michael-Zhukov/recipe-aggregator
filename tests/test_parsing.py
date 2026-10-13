@@ -32,3 +32,31 @@ def test_to_recipe():
 
 def test_empty_title():
     assert to_recipe({"title": ""}) is None
+
+
+def test_parse_cooking_time_invalid_values():
+    assert parse_cooking_time(True) is None
+    assert parse_cooking_time(False) is None
+    assert parse_cooking_time(-10) is None
+    assert parse_cooking_time(0) == 0
+
+
+def test_category_normalization():
+    first = to_recipe(
+        {
+            "title": "Борщ",
+            "category": "Супи",
+        }
+    )
+
+    second = to_recipe(
+        {
+            "title": "Борщ",
+            "category": " СУПИ ",
+        }
+    )
+
+    assert first is not None
+    assert second is not None
+    assert first.category == second.category
+    assert first.key == second.key
