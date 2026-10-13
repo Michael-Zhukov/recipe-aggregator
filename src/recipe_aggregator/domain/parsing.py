@@ -9,9 +9,12 @@ def parse_cooking_time(raw: object) -> int | None:
     if isinstance(raw, bool):
         return None
 
+    if not isinstance(raw, (str, int, float)):
+        return None
+
     try:
         cooking_time = int(raw)
-    except (TypeError, ValueError):
+    except (TypeError, ValueError, OverflowError):
         return None
 
     return cooking_time if cooking_time >= 0 else None

@@ -1,5 +1,6 @@
 from collections import Counter
 from collections.abc import Iterable, Iterator
+from dataclasses import dataclass, field
 from pathlib import Path
 
 from ..domain.models import Recipe
@@ -7,13 +8,81 @@ from ..domain.parsing import to_recipe
 from ..sources.json_file import read_rows
 
 
-def deduplicate(items: Iterable[Recipe]) -> Iterator[Recipe]:
+@dataclass(slots=True)
+class PipelineStats:
+    read: int = 0
+    invalid: int = 0
+    duplicates: int = 0
+    kept: int = 0
+
+    by_category: Counter[str] = field(default_factory=Counter)
+
+    cooking_time_count: int = 0
+    cooking_time_sum: int = 0
+    cooking_time_min: int | None = None
+    cooking_time_max: int | None = None
+
+    @property
+    def cooking_time_avg(self) -> float | None:
+        if self.cooking_time_count == 0:
+            return None
+
+        return self.cooking_time_sum / self.cooking_time_count
+
+
+def parse_all(
+    rows: Iterable[dict],
+    stats: PipelineStats,
+) -> Iterator[Recipe]:
+    for row in rows:
+        stats.read += 1
+
+        recipe = to_recipe(row)
+
+        if recipe is None:
+            stats.invalid += 1
+            continue
+
+        yield recipe
+
+
+def deduplicate(
+    items: Iterable[Recipe],
+    stats: PipelineStats | None = None,
+) -> Iterator[Recipe]:
     seen: set[tuple[str, str]] = set()
 
     for recipe in items:
-        if recipe.key not in seen:
-            seen.add(recipe.key)
-            yield recipe
+        if recipe.key in seen:
+            if stats is not None:
+                stats.duplicates += 1
+            continue
+
+        seen.add(recipe.key)
+        yield recipe
+
+
+def collect(
+    items: Iterable[Recipe],
+    stats: PipelineStats,
+) -> None:
+    for recipe in items:
+        stats.kept += 1
+        stats.by_category[recipe.category] += 1
+
+        cooking_time = recipe.cooking_time
+
+        if cooking_time is None:
+            continue
+
+        stats.cooking_time_count += 1
+        stats.cooking_time_sum += cooking_time
+
+        if stats.cooking_time_min is None or cooking_time < stats.cooking_time_min:
+            stats.cooking_time_min = cooking_time
+
+        if stats.cooking_time_max is None or cooking_time > stats.cooking_time_max:
+            stats.cooking_time_max = cooking_time
 
 
 def count_by_ingredient(items: Iterable[Recipe]) -> Counter[str]:

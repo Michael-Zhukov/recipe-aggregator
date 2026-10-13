@@ -6,7 +6,7 @@ requires-python = ">=3.12"
 dependencies = []
 
 [project.optional-dependencies]
-dev = ["ruff", "pytest", "pre-commit"]
+dev = ["ruff", "pytest", "pre-commit", "mypy"]
 
 [project.scripts]
 recipe-aggregator = "recipe_aggregator.cli:main"
