@@ -1,0 +1,14 @@
+[
+  {"title": " Борщ Український ", "category": "Супи", "cooking_time": "90", "main_ingredient": "Буряк"},
+  {"title": "борщ український", "category": "Супи", "cooking_time": "90", "main_ingredient": "Буряк"},
+  {"title": "Вареники з картоплею", "category": "Основні страви", "cooking_time": "60", "main_ingredient": "Картопля"},
+  {"title": "", "category": "Салати", "cooking_time": "15", "main_ingredient": "Огірок"},
+  {"title": "Олів'є", "category": "Салати", "cooking_time": "45", "main_ingredient": "Картопля"},
+  {"title": "Млинці", "category": "Десерти", "cooking_time": "30", "main_ingredient": "Борошно"},
+  {"title": "Сирники", "category": "Сніданки", "cooking_time": "25", "main_ingredient": "Сир"},
+  {"title": "Плов", "category": "Основні страви", "cooking_time": "60", "main_ingredient": "Рис"},
+  {"title": "Гречана каша", "category": "Гарніри", "cooking_time": "20", "main_ingredient": "Гречка"},
+  {"title": "Суп із сочевиці", "category": "Супи", "cooking_time": "невідомо", "main_ingredient": "Сочевиця"},
+  {"title": "Запечена картопля", "category": "Гарніри", "cooking_time": "50", "main_ingredient": "Картопля"},
+  {"title": "Яблучний пиріг", "category": "Десерти", "cooking_time": "55", "main_ingredient": "Яблуко"}
+]
