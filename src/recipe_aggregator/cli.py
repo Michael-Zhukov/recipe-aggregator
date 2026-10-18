@@ -94,7 +94,7 @@ def main() -> None:
     else:
         collect(pipeline, stats)
 
-    if args.stats or args.batch_size is None:
+    if args.stats:
         print(f"Прочитано записів: {stats.read}")
         print(f"Відхилено: {stats.invalid}")
         print(f"Дублікатів: {stats.duplicates}")
