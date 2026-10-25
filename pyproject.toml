@@ -3,7 +3,11 @@ name = "recipe-aggregator"
 version = "0.1.0"
 description = "Збір та аналіз рецептів"
 requires-python = ">=3.12"
-dependencies = []
+
+dependencies = [
+    "pydantic>=2",
+    "pydantic-settings>=2",
+]
 
 [project.optional-dependencies]
 dev = ["ruff", "pytest", "pre-commit", "mypy"]
@@ -21,3 +25,8 @@ target-version = "py312"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.mypy]
+python_version = "3.12"
+show_error_codes = true
+warn_unused_ignores = true

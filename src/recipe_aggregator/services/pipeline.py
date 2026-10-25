@@ -1,11 +1,14 @@
 from collections import Counter
-from collections.abc import Iterable, Iterator
+from collections.abc import Iterable, Iterator, Mapping
 from dataclasses import dataclass, field
 from pathlib import Path
+
+from pydantic import ValidationError
 
 from ..domain.models import Recipe
 from ..domain.parsing import to_recipe
 from ..sources.json_file import read_rows
+from ..sources.schemas import RecipeIn
 
 
 @dataclass(slots=True)
@@ -31,15 +34,15 @@ class PipelineStats:
 
 
 def parse_all(
-    rows: Iterable[dict],
+    rows: Iterable[Mapping[str, object]],
     stats: PipelineStats,
 ) -> Iterator[Recipe]:
     for row in rows:
         stats.read += 1
 
-        recipe = to_recipe(row)
-
-        if recipe is None:
+        try:
+            recipe = RecipeIn.model_validate(row).to_domain()
+        except ValidationError:
             stats.invalid += 1
             continue
 
@@ -96,7 +99,7 @@ def load_recipes(path: Path) -> list[Recipe]:
     return list(deduplicate(valid))
 
 
-def test_load_recipes():
+def test_load_recipes() -> None:
     recipes = load_recipes(Path("data/recipes.json"))
 
     assert len(recipes) == 10
