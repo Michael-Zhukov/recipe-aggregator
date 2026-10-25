@@ -3,7 +3,7 @@ from pathlib import Path
 from recipe_aggregator.sources.json_file import read_rows
 
 
-def test_read_rows():
+def test_read_rows() -> None:
     path = Path("data/recipes.json")
     rows = list(read_rows(path))
 

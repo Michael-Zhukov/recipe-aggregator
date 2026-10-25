@@ -1,3 +1,5 @@
+from collections.abc import Mapping
+
 from .models import Recipe
 
 
@@ -20,15 +22,23 @@ def parse_cooking_time(raw: object) -> int | None:
     return cooking_time if cooking_time >= 0 else None
 
 
-def to_recipe(row: dict) -> Recipe | None:
-    title = row.get("title") or ""
+def to_recipe(row: Mapping[str, object]) -> Recipe | None:
+    title = row.get("title")
+    category = row.get("category")
 
-    if not title.strip():
+    if not isinstance(title, str) or not title.strip():
         return None
+
+    if not isinstance(category, str) or not category.strip():
+        return None
+
+    ingredient = row.get("main_ingredient")
+    if not isinstance(ingredient, str):
+        ingredient = ""
 
     return Recipe(
         title=normalize_title(title),
-        category=normalize_title(row.get("category") or ""),
+        category=normalize_title(category),
         cooking_time=parse_cooking_time(row.get("cooking_time")),
-        main_ingredient=row.get("main_ingredient", ""),
+        main_ingredient=ingredient,
     )

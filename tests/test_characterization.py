@@ -3,7 +3,7 @@ from pathlib import Path
 from recipe_aggregator.services.pipeline import load_recipes
 
 
-def test_refactored_output_is_stable():
+def test_refactored_output_is_stable() -> None:
     recipes = load_recipes(Path("data/recipes.json"))
 
     assert len(recipes) == 10
