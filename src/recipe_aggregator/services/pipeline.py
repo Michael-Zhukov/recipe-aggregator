@@ -41,8 +41,14 @@ def parse_all(
         stats.read += 1
 
         try:
-            recipe = RecipeIn.model_validate(row).to_domain()
+            validated = RecipeIn.model_validate(row)
         except ValidationError:
+            stats.invalid += 1
+            continue
+
+        try:
+            recipe = validated.to_domain()
+        except ValueError:
             stats.invalid += 1
             continue
 

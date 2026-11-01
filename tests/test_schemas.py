@@ -39,11 +39,13 @@ def test_unknown_cooking_time() -> None:
         ("   ", "Супи"),
         ("Борщ", ""),
         ("Борщ", "   "),
+        (123, "Супи"),
+        ("Борщ", []),
     ],
 )
 def test_invalid_recipe_in(
-    title: str,
-    category: str,
+    title: object,
+    category: object,
 ) -> None:
     with pytest.raises(ValidationError):
         RecipeIn.model_validate(
