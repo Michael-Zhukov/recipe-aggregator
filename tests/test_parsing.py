@@ -5,17 +5,17 @@ from recipe_aggregator.domain.parsing import (
 )
 
 
-def test_normalize_title():
+def test_normalize_title() -> None:
     assert normalize_title("  Борщ   Український  ") == "борщ український"
 
 
-def test_parse_cooking_time():
+def test_parse_cooking_time() -> None:
     assert parse_cooking_time("90") == 90
     assert parse_cooking_time("невідомо") is None
     assert parse_cooking_time(None) is None
 
 
-def test_to_recipe():
+def test_to_recipe() -> None:
     row = {
         "title": " Борщ Український ",
         "category": "Супи",
@@ -30,18 +30,18 @@ def test_to_recipe():
     assert recipe.cooking_time == 90
 
 
-def test_empty_title():
+def test_empty_title() -> None:
     assert to_recipe({"title": ""}) is None
 
 
-def test_parse_cooking_time_invalid_values():
+def test_parse_cooking_time_invalid_values() -> None:
     assert parse_cooking_time(True) is None
     assert parse_cooking_time(False) is None
     assert parse_cooking_time(-10) is None
     assert parse_cooking_time(0) == 0
 
 
-def test_category_normalization():
+def test_category_normalization() -> None:
     first = to_recipe(
         {
             "title": "Борщ",

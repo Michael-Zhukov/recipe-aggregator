@@ -12,7 +12,7 @@ from recipe_aggregator.services.pipeline import (
 )
 
 
-def test_deduplicate():
+def test_deduplicate() -> None:
     recipes = [
         Recipe("борщ", "Супи", 90, "Буряк"),
         Recipe("борщ", "Супи", 100, "Буряк"),
@@ -27,7 +27,7 @@ def test_deduplicate():
     assert result[1].title == "сирники"
 
 
-def test_count_by_ingredient():
+def test_count_by_ingredient() -> None:
     recipes = [
         Recipe("борщ", "Супи", 90, "Буряк"),
         Recipe("салат", "Салати", 15, "Картопля"),
@@ -41,7 +41,7 @@ def test_count_by_ingredient():
     assert statistics["Морква"] == 0
 
 
-def test_load_recipes():
+def test_load_recipes() -> None:
     recipes = load_recipes(Path("data/recipes.json"))
 
     assert len(recipes) == 10
@@ -53,7 +53,7 @@ def test_load_recipes():
     assert lentil_soup.cooking_time is None
 
 
-def test_invalid_rows_are_counted():
+def test_invalid_rows_are_counted() -> None:
     rows = [
         {
             "title": "Борщ",
@@ -77,7 +77,7 @@ def test_invalid_rows_are_counted():
     assert stats.invalid == 1
 
 
-def test_duplicates_are_counted():
+def test_duplicates_are_counted() -> None:
     rows = [
         {
             "title": "Борщ",
@@ -100,7 +100,7 @@ def test_duplicates_are_counted():
     assert stats.duplicates == 1
 
 
-def test_collect_statistics():
+def test_collect_statistics() -> None:
     rows = [
         {
             "title": "Борщ",
@@ -125,5 +125,5 @@ def test_collect_statistics():
     assert stats.cooking_time_avg == 55
 
 
-def test_batched_splits_tail():
+def test_batched_splits_tail() -> None:
     assert [len(batch) for batch in batched(range(7), 3)] == [3, 3, 1]
